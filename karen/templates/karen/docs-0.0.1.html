@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <title>Karen - Add-on Docs</title>
+        <link
+            href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css"
+            rel="stylesheet"
+            integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1"
+            crossorigin="anonymous"
+        />
+        <link rel="icon" href="{%static 'karen/img/karen_icon.png' %}" />
+        <link rel="stylesheet" href="{%static 'karen/css/index.css' %}" />
+        <link rel="stylesheet" href="{%static 'karen/css/docs.css' %}" />
+        <link rel="stylesheet" href="{%static 'karen/css/prism.css' %}" />
+    </head>
+    <body style="position: relative">
+        <div class="container">
+            <div class="row">
+                <div class="d-lg-none d-xl-none top-nav">
+                    <a class="image-anchor" href="{% url 'karen_index' %}">
+                        <img
+                            class="home-logo-small text-center mb-3"
+                            src="{% static 'karen/img/karen.png' %}"
+                            alt=""
+                        />
+                    </a>
+                </div>
+                <div class="col-lg-3 d-none d-lg-block">
+                    <nav id="side-nav" class="navbar" style="position: fixed">
+                        <div class="row">
+                            <a
+                                class="image-anchor"
+                                href="{% url 'karen_index' %}"
+                            >
+                                <img
+                                    class="home-logo text-center mb-3"
+                                    src="{% static 'karen/img/karen.png' %}"
+                                    alt=""
+                                />
+                            </a>
+                            <nav class="nav nav-pills flex-column">
+                                <a class="nav-link" href="#introduction"
+                                    >Introduction</a
+                                >
+                                <a class="nav-link" href="#the-config-file"
+                                    >The config file</a
+                                >
+                                <a class="nav-link" href="#the-logic"
+                                    >The logic</a
+                                >
+                                <nav class="nav nav-pills flex-column">
+                                    <a
+                                        class="nav-link ms-3 my-1"
+                                        href="#the-run-method"
+                                        >The run method</a
+                                    >
+                                    <a
+                                        class="nav-link ms-3 my-1"
+                                        href="#the-voice-instance"
+                                        >The voice instance</a
+                                    >
+                                    <a
+                                        class="nav-link ms-3 my-1"
+                                        href="#addon-settings"
+                                        >Add-on settings</a
+                                    >
+                                </nav>
+                                <a class="nav-link" href="#deploying"
+                                    >Deploying</a
+                                >
+                                <nav class="nav nav-pills flex-column">
+                                    <a
+                                        class="nav-link ms-3 my-1"
+                                        href="#installing-manually"
+                                        >Installing manually</a
+                                    >
+                                    <a
+                                        class="nav-link ms-3 my-1"
+                                        href="#the-addon-manager"
+                                        >The add-on manager</a
+                                    >
+                                    <a
+                                        class="nav-link ms-3 my-1"
+                                        href="#sharing-your-addon"
+                                        >Sharing your add-on</a
+                                    >
+                                </nav>
+                            </nav>
+                        </div>
+                    </nav>
+                </div>
+                <div
+                    data-bs-spy="scroll"
+                    data-bs-target="#side-nav"
+                    class="col-lg-9 col-sm-12 mt-5"
+                >
+                    <h2 id="introduction" class="doc-header">Introduction</h2>
+                    <p>
+                        This documentation will show you how to create add-ons
+                        for
+                        <a class="doc-link" href="">Karen</a>. Add-ons are made
+                        using the
+                        <a
+                            class="doc-link"
+                            href="https://www.python.org/"
+                            target="_blank"
+                            >Python</a
+                        >
+                        programming language, so as long as you know Python, you
+                        can start building Karen add-ons. The examples for this
+                        documentation come from the
+                        <a
+                            class="doc-link"
+                            href="https://github.com/AlfredoSequeida/openweather"
+                            target="_blank"
+                            >openweather</a
+                        >
+                        add-on.
+                    </p>
+
+                    <h2 id="the-config-file" class="doc-header">
+                        The config file
+                    </h2>
+                    <p>
+                        The config file is a JSON file that is the start of any
+                        Karen add-on, it tells Karen different information such
+                        as the name of the add-on, the developer, entry-point,
+                        required python packages, and more. This is what a
+                        common config file for a Karen add-on looks like:
+                    </p>
+
+                    <h3>config.json</h3>
+                    <pre><code class="language-json">
+{
+  "commands": [
+    "what's the 7-day forecast",
+    "what's the weather",
+    "what's the forecast"
+  ],
+  "entry-point": "openweather",
+  "icon": "icon.png",
+  "languages": ["en"],
+  "name": "openweather",
+  "developer": "Alfredo Sequeida",
+  "required_packages": ["requests"],
+  "settings": {
+    "lat": "",
+    "long": "",
+    "units": "imperial",
+    "api_key": ""
+  },
+  "version": "0.0.1"
+}
+        </code></pre>
+
+                    <p>
+                        The config file should be named config.json and it
+                        should be created at the root of the add-on structure.
+                    </p>
+
+                    <h4>Config values</h4>
+                    <p>
+                        bellow you will find a documented ist of the config
+                        values
+                    </p>
+
+                    <h5>Required Values</h5>
+                    <ul>
+                        <li>name [string] - the name of the add-on</li>
+                        <li>
+                            developer [string] - the developer of the add-on
+                        </li>
+                        <li>
+                            commands [array of strings] - the commands that
+                            activate your add-ons
+                        </li>
+                        <li>
+                            entry-point [string] - the root python file of your
+                            add-on without the .py extension
+                        </li>
+                        <li>
+                            version [string] - the version of your add-on
+                            release
+                        </li>
+                    </ul>
+
+                    <h5>Optional Values</h5>
+                    <ul>
+                        <li>
+                            icon [string] - The icon path for the add-on. This
+                            icon will be used on the Karren app. The recommended
+                            size is 500px by 500px and the recommended file type
+                            is png.
+                        </li>
+                        <li>
+                            languages [array of strings] - The ISO 639-1
+                            language codes that your add-on supports
+                        </li>
+                        <li>
+                            required_packages [array of strings] -
+                            <a
+                                class="doc-link"
+                                href="https://pypi.org/"
+                                target="_blank"
+                                >PyPi</a
+                            >
+                            packages that your add-on requires.
+                        </li>
+                        <li>
+                            settings [object of objects] - These are user
+                            settings for your add-on
+                        </li>
+                    </ul>
+
+                    <h2 id="the-logic" class="doc-header">The logic</h2>
+                    <p>
+                        Creating the actual logic for your program is easy if
+                        you know how to use the
+                        <a
+                            class="doc-link"
+                            href="https://python.org"
+                            target="_blank"
+                            >Python</a
+                        >
+                        programming language.
+                    </p>
+
+                    <h3 id="the-run-method">The run method</h3>
+
+                    <p>
+                        Unlike a standard Python program, the start of a Karen
+                        add-on is the run function. The run function has 3
+                        required parameters; command, args, and voice_instance
+                    </p>
+
+                    <h3>openweather.py</h3>
+                    <pre><code class="language-python">
+def run(command, args, voice_instance):
+  # your program logic here
+        </code></pre>
+
+                    <ul>
+                        <li>
+                            command [string] - the command that triggered your
+                            add-on
+                        </li>
+                        <li>
+                            args [list] - arguments are anything that comes
+                            after your command for example if your command is
+                            'play', and the user says 'play ACDC', args will be
+                            a list that looks like this ['ACDC']
+                        </li>
+                        <li>
+                            voice_instance [voice] - voice_instance is how you
+                            communicate back to the user.
+                        </li>
+                    </ul>
+
+                    <h3 id="the-voice-instance">The voice instance</h3>
+                    <p>
+                        The voice class is how you can communicate back to the
+                        user by making Karen say a response or playing media as
+                        feedback or for media applications such as playing
+                        music. The following methods are available to you:
+                    </p>
+
+                    <pre><code class="language-python">
+say(self, voice_output: str, lang: str = "en", translate: bool = True)
+"""
+say a response
+
+voice_output: the response
+lang: 639-1 language code for response (default: en)
+translate: option to translate response using google translate
+(default: true)
+"""
+          </code></pre>
+
+                    <pre><code class="language-python">
+play_media(self, media_path: str)
+"""
+play media
+
+media_path: the path of media to pay/stream
+"""
+          </code></pre>
+
+                    <pre><code class="language-python">
+pause(self)
+"""
+pause media
+"""
+        </code></pre>
+
+                    <pre><code class="language-python">
+stop(self)
+"""
+stop media
+"""
+          </code></pre>
+
+                    <p>
+                        Note, since Karen's responses are procedural, meaning
+                        they come one after the other, it's important not to use
+                        responses one after the other. If you do this, it's
+                        possible that only your last command will play, and your
+                        previous responses will not play at all. Instead, it's
+                        best practice to for example use the say method once you
+                        have accumulated everything you need to say.
+                    </p>
+
+                    <pre><code class="language-python">
+# don't do this
+def say_seven_day_forecast(voice_instance):
+    response = call_api()
+
+    daily = response["daily"]
+
+    for day in daily:
+        for weather in day["weather"]:
+            voice_instance.say(
+                "on "
+                f"{datetime.fromtimestamp(day['dt']).strftime('%A')} "
+                "it will be "
+                f"{weather['description']} "
+                "with a maximum temperature of "
+                f"{day['temp']['max'] : .0f} degress"
+                f"{UNITS[USER_SETTINGS['units']]} "
+                f"and minimum temperature of "
+                f"{day['temp']['min'] : .0f} degrees"
+                f"{UNITS[USER_SETTINGS['units']]}, "
+            )
+
+# do this instead
+def say_seven_day_forecast(voice_instance):
+    response = call_api()
+
+    daily = response["daily"]
+
+    voice_output = ""
+
+    for day in daily:
+        for weather in day["weather"]:
+
+            # instead of using the say method here, we put everthing we 
+            # want to say in a variable
+            voice_output += (
+                "on "
+                f"{datetime.fromtimestamp(day['dt']).strftime('%A')} "
+                "it will be "
+                f"{weather['description']} "
+                "with a maximum temperature of "
+                f"{day['temp']['max'] : .0f} degress"
+                f"{UNITS[USER_SETTINGS['units']]} "
+                f"and minimum temperature of "
+                f"{day['temp']['min'] : .0f} degrees"
+                f"{UNITS[USER_SETTINGS['units']]}, "
+            )
+
+    # after we have everything we want to say, we say it
+    voice_instance.say(voice_output)
+          </code></pre>
+
+                    <h3 id="addon-settings">Add-on settings</h3>
+                    <p>
+                        If you have given your add-on the ability to be
+                        configured using settings in your config file, you need
+                        to be able to access the most up to date settings, so
+                        utils.settings provides the
+                        <span class="inline-code-block"
+                            >get_addon_settings</span
+                        >
+                        method. This method takes the name of your add-on as a
+                        parameter.
+
+                        <br />
+
+                        <span class="text-danger"
+                            >Note: Do not access try to access user settings
+                            from your add-on's config file as changes to user
+                            settings are stored in Karen's main config file, not
+                            in your add-on's config file</span
+                        >
+                    </p>
+
+                    <pre><code class="language-python">
+from utils.settings import get_addon_settings
+USER_SETTINGS = get_addon_settings("openweather")
+
+params = {
+  "lat": USER_SETTINGS["lat"],
+  "lon": USER_SETTINGS["long"],
+  "units": USER_SETTINGS["units"],
+  "appid": USER_SETTINGS["api_key"],
+}
+          </code></pre>
+
+                    <h2 id="deploying" class="doc-header">Deploying</h2>
+                    <p>
+                        After creating your add-on, you have the option to
+                        deploy it by installing it directly on your own Karen
+                        installation or creating a GitHub repo, which also gives
+                        others the ability to install your add-on on their
+                        devices using Karen's add-on manager or the Karen app.
+                    </p>
+
+                    <h3 id="installing-manually">Installing manually</h3>
+                    <p>
+                        The easiest way to install your add-on is by placing
+                        your add-on with the rest of your add-ons at the root of
+                        your Karen installation in the add-ons directory.
+                    </p>
+
+                    <p>
+                        Your add-on package (directory/folder) should follow
+                        this naming convention: {add-on developer}_{add-on name}
+                        without any periods "."
+                        <br />
+                        example: Alfredo Sequeida_openweather
+                        <br />
+                        where: Alfredo Sequeida is the name of the add-on
+                        developer and openweather is the name of the add-on
+                    </p>
+
+                    <p>
+                        Additionally, if your add-on has any required packages,
+                        make sure to install those as well. Then simply restart
+                        your Karen instance for the changes to take effect.
+                    </p>
+
+                    <h3 id="the-addon-manager">The add-on manager</h3>
+
+                    <p>
+                        Karen comes with an add-on manager that makes installing
+                        add-ons from GitHub repos easy. The first thing to do is
+                        upload your add-on to
+                        <a
+                            class="doc-link"
+                            href="https://github.com"
+                            target="_blank"
+                            >GitHub</a
+                        >. Then you can run the add-on manager with the URL for
+                        your GitHub repo:
+                    </p>
+
+                    <div class="code-block">
+                        python3 addon_manager.py --install
+                        https://github.com/AlfredoSequeida/openweather
+                    </div>
+
+                    <h3 id="sharing-your-addon">Sharing your add-on</h3>
+                    <p>
+                        You can share your add-on for others to install via the
+                        Karen app or the add-on manager by submitting the GitHub
+                        repo link
+                        <a class="doc-link" href="{% url 'karen_index' %}"
+                            >here.</a
+                        >
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <script src="{%static 'karen/js/prism.js' %}"></script>
+        <script
+            src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW"
+            crossorigin="anonymous"
+        ></script>
+
+        <script>
+            var scrollSpy = new bootstrap.ScrollSpy(document.body, {
+                target: "#side-nav",
+            });
+        </script>
+    </body>
+</html>

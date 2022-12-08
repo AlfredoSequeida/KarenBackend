@@ -1,0 +1,35 @@
+body{
+    position: relative !important;
+}
+
+#side-nav{
+    position: fixed;
+    margin-top: 50px;
+}
+
+.nav-link.active{
+background-color: #f48024 !important;
+}
+
+.doc-header{
+    font-weight: bold;
+    font-size: 40px;
+    margin-top: 50px;
+}
+
+
+.doc-link{
+    color: #f48024 !important;
+}
+
+.code-block{
+    background-color: #ffa357;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+.inline-code-block{
+    background-color:#ffa357;
+    padding: 3px;
+    border-radius: 5px;
+}

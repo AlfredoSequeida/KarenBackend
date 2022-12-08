@@ -1,0 +1,71 @@
+html, body{
+    background-color: #eff3f5ff;
+}
+
+.main-logo{
+    width: 120px;
+}
+
+.image-anchor{
+    width: 0px;
+}
+
+.home-logo{
+    width: 100px;
+}
+
+.home-logo-small{
+    width: 50px;
+}
+
+.top-nav{
+    background-color: #eff3f5;
+    padding-top: 10px;
+    position: fixed;
+}
+
+.errorlist{
+    list-style-type: none !important;
+}
+
+.addon-icon{
+    width: 150px;
+    height: 150px;
+}
+
+.addon-name{
+    font-size: 20px;
+}
+
+a{
+    color: #000;
+    text-decoration: none;
+}
+
+a:hover{
+    color: #f48024;
+}
+
+.form-control:focus{
+    border-color: #f48024 !important;                                                
+    box-shadow: none !important;      
+}
+
+.btn:hover{
+    background-color:  #f48024 !important;
+}
+
+.btn-outline-secondary{
+    border-color: #ced4da !important;
+}
+
+.round{border-radius: 50px;}
+
+.round-right{
+    border-radius: 0px 50px 50px 0px !important; 
+}
+
+#title{
+    font-size: 150px;
+    margin-bottom: -20px !important;
+}

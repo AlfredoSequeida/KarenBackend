@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <title>Karen</title>
+        <link
+            href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css"
+            rel="stylesheet"
+            integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1"
+            crossorigin="anonymous"
+        />
+        <link rel="icon" href="{%static 'karen/img/karen_icon.png' %}" />
+        <link rel="stylesheet" href="{%static 'karen/css/index.css' %}" />
+    </head>
+    <body>
+        <div class="container">
+            <div class="row h-20">
+                <div class="col-md-12 text-center mb-3 mt-3">
+                    <img
+                        class="main-logo text-center"
+                        src="{% static 'karen/img/karen.png' %}"
+                        alt=""
+                    />
+                </div>
+            </div>
+            <div class="col-md-12 text-center mb-3">
+                <!-- <h1 class="fw-bold" id="title">Karen</h1> -->
+
+                <div style="display: inline-block">
+                    <h3 class="fw-light">
+                        open source voice assistant
+                        <a
+                            target="_blank"
+                            href="https://www.youtube.com/watch?v=VPdPOVL8c1Q&list=PL9gEr35J45czlRLHXhA3jShGG_jIrRprJ"
+                        >
+                            <svg
+                                xmlns:dc="http://purl.org/dc/elements/1.1/"
+                                xmlns:cc="http://creativecommons.org/ns#"
+                                xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+                                xmlns:svg="http://www.w3.org/2000/svg"
+                                xmlns="http://www.w3.org/2000/svg"
+                                xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+                                xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+                                viewBox="0 0 200 140.06799"
+                                version="1.1"
+                                id="svg903"
+                                sodipodi:docname="youtube_logo.svg"
+                                width="50"
+                                inkscape:version="1.0.1 (3bc2e813f5, 2020-09-07)"
+                            >
+                                <metadata id="metadata909"></metadata>
+                                <defs id="defs907" />
+
+                                <path
+                                    class="youtube-icon"
+                                    d="M 195.5863,21.93372 A 25.140408,25.140408 0 0 0 177.8854,4.23282 C 162.36505,0 99.898825,0 99.898825,0 c 0,0 -62.46623,0.12827 -77.98658,4.3611 A 25.140408,25.140408 0 0 0 4.2113489,22.06199 c -4.69458697,27.57749 -6.515983,69.59789 0.128268,96.07228 a 25.140408,25.140408 0 0 0 17.7008981,17.7009 c 15.52036,4.23283 77.986575,4.23283 77.986575,4.23283 0,0 62.46623,0 77.98658,-4.23283 a 25.140408,25.140408 0 0 0 17.7009,-17.7009 c 4.95112,-27.61597 6.4775,-69.61072 -0.12827,-96.20055 z"
+                                    fill="#ff0000"
+                                    id="path890-1"
+                                    style="stroke-width: 1.28268"
+                                    inkscape:export-filename="/home/alfredo/Documents/projects/alfredosequeida/karen/static/karen/img/youtube_logo.png"
+                                    inkscape:export-xdpi="96"
+                                    inkscape:export-ydpi="96"
+                                />
+                                <path
+                                    fill="#ffffff"
+                                    d="M 80.017375,100.04856 131.8374,70.034 80.017375,40.01942 Z"
+                                    id="path892-2"
+                                    style="stroke-width: 1.28268"
+                                    inkscape:export-filename="/home/alfredo/Documents/projects/alfredosequeida/karen/static/karen/img/youtube_logo.png"
+                                    inkscape:export-xdpi="96"
+                                    inkscape:export-ydpi="96"
+                                />
+                            </svg>
+                        </a>
+                    </h3>
+                    <a href="{% url 'karen_docs' '0.0.1' %}">
+                        <button type="button" class="btn btn-outline-secondary">
+                            How do I make a Karen add-on?
+                        </button>
+                    </a>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-2"></div>
+                <div class="col-lg-8">
+                    <form action="" method="post">
+                        {% csrf_token %} {% if form.upstream_url.errors %}
+                        <div
+                            class="alert alert-warning text-center"
+                            role="alert"
+                        >
+                            {% for field, error in form.errors.items %}
+                            <!---->
+                            {% if field != '__all__' %}{{ upstream_url }}{%
+                            endif %}
+                            <!---->
+                            {{ error| striptags }} {% endfor %}
+                        </div>
+                        {% endif %}
+
+                        <!---->
+                        {% if messages %}
+                        <ul class="messages">
+                            {% for message in messages %}
+                            <div
+                                class="alert alert-{{ message.tags }} text-center"
+                                role="alert"
+                            >
+                                {{ message }}
+                            </div>
+                            {% endfor %}
+                        </ul>
+                        {% endif %}
+
+                        <div class="input-group mb-5">
+                            {{ form.upstream_url }}
+
+                            <button
+                                class="btn btn-outline-secondary round-right"
+                                type="submit"
+                                id="submit-addon"
+                            >
+                                Submit addon
+                            </button>
+                        </div>
+                    </form>
+                </div>
+                <div class="col-lg-2"></div>
+            </div>
+            <div class="row">
+                {% for addon in addons %}
+                <div
+                    class="addon-container col-6 col-md-4 col-lg-3 text-center mb-3"
+                >
+                    <a target="_blank" href="{{ addon.upstream_url }}">
+                        {% if addon.icon_url %}
+                        <img class="addon-icon" src="{{ addon.icon_url }}" />
+                        {% else %}
+                        <img
+                            class="addon-icon"
+                            src="{%static 'karen/img/icon.png' %}"
+                        />
+                        {% endif %}
+                        <h3 class="addon-name">{{ addon.name }}</h3>
+                    </a>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+
+        <script
+            src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW"
+            crossorigin="anonymous"
+        ></script>
+    </body>
+</html>
